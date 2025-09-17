@@ -1,9 +1,9 @@
 ---
 layout: default
-title: "Введение в проектирование на языке Verilog"
+title: "Список материалов"
 ---
 
-# Список лекций
+# Введение в проектирование на языке Verilog
 
 | #   | Слайды | Примеры | Руководства | Задания |
 |:---:| -------| ------- | ----------- | ------- |
@@ -20,3 +20,12 @@ title: "Введение в проектирование на языке Verilog
 | 7b  | [Конвейерные вычисления](https://docs.google.com/presentation/d/10LPWZqqwGkNW45AFo-a64QdzvaN9OXWRo5L_dI8OWbE) | - | - | [07_fp16pipe](https://github.com/viktor-prutyanov/drec-fpga-intro/tree/master/problems/2025/07_fp16pipe) |
 | 8   | [RISC-V: 2-стадийная реализация](https://docs.google.com/presentation/d/1viiUbddl-3-mMLHUyqRT4Qwg-TDqU6svTKQP5wMri3Y) | - | - | [08_cpu](https://github.com/viktor-prutyanov/drec-fpga-intro/tree/master/problems/2025/08_cpu) |
 | 9   | [RISC-V: 3-стадийная реализация](https://docs.google.com/presentation/d/1QbmjNIb4kOxNY0MI4AXhF-Dj0UDitCWxHmHr5LqA0AE) | - | - | [09_cpu](https://github.com/viktor-prutyanov/drec-fpga-intro/tree/master/problems/2025/09_cpu) |
+
+# Проектирование цифровых вычислительных систем
+
+| #   | Слайды | Примеры | Руководства | Задания |
+|:---:| ------ | ------- | ----------- | ------- |
+| 1   | [Вводная лекция](https://docs.google.com/presentation/d/1mP-TNxQqpTpLkNQvJT76EnDv9aG5tzx0p_pcESyRpIo) | - | - | - |
+| 2a  | [SystemVerilog (ч.1)](https://docs.google.com/presentation/d/1WW6jrEPX8b1EH6NTLpnnro9-EQV8kLnHr6WuiDTPK9A) | [02_dpi](https://github.com/viktor-prutyanov/drec-fpga-intro/tree/master/examples/2026/02_dpi) | - | - |
+| 2b  | [Систолический массив](https://docs.google.com/presentation/d/18jo_C5YGQSz22qVKPTkTkqtv1m0k9GBK6ZInayUCPNo) | - | - | [02_syst_arr](https://github.com/viktor-prutyanov/drec-fpga-intro/tree/master/problems/2026/02_syst_array) |
+
