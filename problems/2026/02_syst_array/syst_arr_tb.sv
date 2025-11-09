@@ -12,21 +12,33 @@ end
 parameter WIDTH = 32;
 parameter SIZE = 2;
 
-logic             we;
-logic             a_vld;
-logic [WIDTH-1:0] a_row [SIZE];
-logic             c_vld;
-logic [WIDTH-1:0] c_row [SIZE];
+logic                          we;
+logic                       a_vld;
+logic [SIZE-1:0][WIDTH-1:0] a_row;
+logic                       c_vld;
+logic [SIZE-1:0][WIDTH-1:0] c_row;
 
-syst_arr #(.SIZE(2), .WIDTH(32)) syst_arr (
+sa_top  #(.SIZE(2), .WIDTH(32)) syst_arr (
     .clk     (clk),
     .rst_n   (rst_n),
-    .i_we    (we),
-    .i_a_row_vld (a_vld),
-    .i_a_row (a_row),
-    .o_c_row_vld (c_vld),
-    .o_c_row (c_row)
+    .i_b_we    ({2{we}}),
+    .i_a_vld ({2{a_vld}}),
+    .i_a (a_row),
+    .o_c_vld (c_vld),
+    .o_c (c_row)
 );
+
+int A [SIZE][SIZE] = '{'{32'd1, 32'd2}, '{32'd3, 32'd4}};
+int B [SIZE][SIZE] = '{'{32'd1, 32'd0}, '{32'd0, 32'd1}};
+
+import "DPI-C" function void mat_mul(
+    input int a[2][2],
+    input int b[2][2]
+);
+
+initial begin
+   mat_mul(A, B);
+end
 
 initial begin
     $dumpvars;
@@ -37,7 +49,7 @@ initial begin
     #2;
     we = 1; a_vld = 1; a_row = {32'd3, 32'd4};
 
-    #5
+    #6;
 
     $finish;
 end

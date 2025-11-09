@@ -1,5 +1,5 @@
 // Processing element for systolic array.
-module syst_elem #(
+module pe #(
     parameter int WIDTH = 32
 )(
     input logic clk,
@@ -28,7 +28,9 @@ logic             c_vld;
 // Data Flow.
 always_ff @(posedge clk or negedge rst_n) begin
     a <= i_a;
-    c <= i_a * b + i_c;
+    if (i_a_vld && i_c_vld) begin
+        c <= i_a * b + i_c;
+    end
 end
 
 // Control flow.

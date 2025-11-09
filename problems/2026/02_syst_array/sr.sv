@@ -1,5 +1,5 @@
 // Shift register for systolic array.
-module shiftreg #(
+module sr #(
     parameter int DEPTH = 1,
     parameter int WIDTH = 32
 )(
@@ -14,11 +14,11 @@ module shiftreg #(
 );
 
 generate
-    if (DEPTH == 0) begin : g_PASSTROUGH
+    if (DEPTH == 0) begin : gen_PASSTROUGH
         assign o_data = i_data;
         assign o_vld = i_vld;
     end
-    else if (DEPTH == 1) begin
+    else if (DEPTH == 1) begin : gen_PIPE
         logic filled;
         logic [WIDTH-1:0] r;
 
@@ -38,13 +38,13 @@ generate
             end
         end
     end
-    else begin
-        logic [$clog2(DEPTH):0] cnt;  // Count to determine when the output of the shiftreg output becomes valid.
+    else begin : gen_FIFO
+        logic [$clog2(DEPTH):0] cnt;
         logic [WIDTH-1:0] r [DEPTH];
 
         always_ff @(posedge clk or negedge rst_n) begin
             if (!rst_n) begin
-                r <= '0;
+                // r <= '0;
             end
             else begin
                 if (i_vld) begin
