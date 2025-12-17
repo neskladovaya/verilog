@@ -10,9 +10,9 @@ module gen_addr
 
     input  logic                    i_en,
     input  logic                    i_we,
-    input  logic [AXI_ADDR_W - 1:0] base_addr_a,
-    input  logic [AXI_ADDR_W - 1:0] base_addr_b,
-    input  logic [AXI_ADDR_W - 1:0] base_addr_c,
+    input  logic [AXI_ADDR_W - 1:0] addr_a,
+    input  logic [AXI_ADDR_W - 1:0] addr_b,
+    input  logic [AXI_ADDR_W - 1:0] addr_c,
 
     // Ar
     output logic [AXI_ADDR_W - 1:0] araddr,
@@ -32,13 +32,13 @@ module gen_addr
 );
 
 assign arvalid = (state == READ) && i_en;
-assign araddr  = i_we ? base_addr_b : base_addr_a;
+assign araddr  = i_we ? addr_b : addr_a;
 assign arlen   = SIZE-1;
 assign arsize  = $clog2(AXI_DATA_W/8)[$size(arsize)-1:0];
 assign arburst = 2'b01;
 
 assign awvalid = i_en & (state == READ) & !i_we;
-assign awaddr  = base_addr_c;
+assign awaddr  = addr_c;
 assign awlen   = SIZE-1;
 assign awsize  = $clog2(AXI_DATA_W/8)[$size(awsize)-1:0];
 assign awburst = 2'b01;

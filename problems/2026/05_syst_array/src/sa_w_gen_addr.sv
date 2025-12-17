@@ -10,9 +10,9 @@ module sa_w_gen_addr
 
     input  logic                    i_addr_gen_en,
     input  logic                    i_we,
-    input  logic [AXI_ADDR_W - 1:0] base_addr_a,
-    input  logic [AXI_ADDR_W - 1:0] base_addr_b,
-    input  logic [AXI_ADDR_W - 1:0] base_addr_c,
+    input  logic [AXI_ADDR_W - 1:0] addr_a,
+    input  logic [AXI_ADDR_W - 1:0] addr_b,
+    input  logic [AXI_ADDR_W - 1:0] addr_c,
 
     // WA
     output logic [AXI_ADDR_W - 1:0] m_axi_awaddr,
@@ -65,9 +65,9 @@ module sa_w_gen_addr
 
         .i_en(i_addr_gen_en),
         .i_we(i_we),
-        .base_addr_a(base_addr_a),
-        .base_addr_b(base_addr_b),
-        .base_addr_c(base_addr_c),
+        .addr_a(addr_a),
+        .addr_b(addr_b),
+        .addr_c(addr_c),
 
         .awaddr (m_axi_awaddr),
         .awlen  (m_axi_awlen),
