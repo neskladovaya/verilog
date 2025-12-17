@@ -21,7 +21,6 @@
     localparam ADDR_WIDTH = $clog2(DEPTH);
 
     logic [DATA_WIDTH-1:0] mem [0:DEPTH-1];
-    logic [DEPTH-1:0]      last_flags;  // store tlast per word
 
     logic [ADDR_WIDTH:0]   wr_addr, rd_addr;
     logic [ADDR_WIDTH:0]   count;
@@ -37,7 +36,6 @@
             wr_addr <= '0;
         end else if (s_axis_tvalid && s_axis_tready) begin
             mem[wr_addr[ADDR_WIDTH-1:0]] <= s_axis_tdata;
-            last_flags[wr_addr[ADDR_WIDTH-1:0]] <= s_axis_tlast;
             wr_addr <= wr_addr + 1;
         end
     end
@@ -57,9 +55,9 @@
             count <= '0;
         end else begin
             case ({s_axis_tvalid && s_axis_tready, m_axis_tvalid && m_axis_tready})
-                2'b10: count <= count + 1;  // write only
-                2'b01: count <= count - 1;  // read only
-                default: count <= count;    // same number of ops
+                2'b10: count <= count + 1;
+                2'b01: count <= count - 1;
+                default: count <= count;
             endcase
         end
     end
@@ -68,6 +66,5 @@
 
     assign m_axis_tvalid = !fifo_empty;
     assign m_axis_tdata  = mem[rd_addr[ADDR_WIDTH-1:0]];
-    assign m_axis_tlast  = last_flags[rd_addr[ADDR_WIDTH-1:0]];
 
 endmodule
