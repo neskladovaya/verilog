@@ -1,4 +1,4 @@
-module sa_w_gen_addr
+module sa_axi
     import axi_pkg::*;
 #(
     parameter WIDTH  = 16,
@@ -7,12 +7,6 @@ module sa_w_gen_addr
 )(
     input  logic                    clk,
     input  logic                    rst_n,
-
-    input  logic                    i_addr_gen_en,
-    input  logic                    i_we,
-    input  logic [AXI_ADDR_W - 1:0] base_addr_a,
-    input  logic [AXI_ADDR_W - 1:0] base_addr_b,
-    input  logic [AXI_ADDR_W - 1:0] base_addr_c,
 
     // WA
     output logic [AXI_ADDR_W - 1:0] m_axi_awaddr,
@@ -52,9 +46,69 @@ module sa_w_gen_addr
     input  logic [AXI_RESP_W - 1:0] m_axi_rresp,
     input  logic                    m_axi_rlast,
     input  logic                    m_axi_rvalid,
-    output logic                    m_axi_rready
+    output logic                    m_axi_rready,
 
+    // AW lite
+    input  logic [31:0] s_axil_awaddr,
+    input  logic [2:0]  s_axil_awprot,
+    input  logic        s_axil_awvalid,
+    output logic        s_axil_awready,
+
+    // W lite
+    input  logic [31:0] s_axil_wdata,
+    input  logic [3:0]  s_axil_wstrb,
+    input  logic        s_axil_wvalid,
+    output logic        s_axil_wready,
+
+    // B lite
+    output logic [1:0]  s_axil_bresp,
+    output logic        s_axil_bvalid,
+    input  logic        s_axil_bready,
+
+    // AR lite
+    input  logic [31:0] s_axil_araddr,
+    input  logic [2:0]  s_axil_arprot,
+    input  logic        s_axil_arvalid,
+    output logic        s_axil_arready,
+
+    // R lite
+    output logic [31:0] s_axil_rdata,
+    output logic [1:0]  s_axil_rresp,
+    output logic        s_axil_rvalid,
+    input  logic        s_axil_rready
 );
+
+    logic addr_en;
+    logic we;
+    logic [AXI_ADDR_W - 1:0] a_addr;
+    logic [AXI_ADDR_W - 1:0] b_addr;
+    logic [AXI_ADDR_W - 1:0] c_addr;
+
+    axil2reg_wr #(.ADDR_WIDTH(32),
+                  .DATA_WIDTH(32)
+    ) axil_intf_inst (
+        .clk(clk),
+        .rst_n(rst_n),
+
+        .s_axil_awaddr (s_axil_awaddr),
+        .s_axil_awprot (s_axil_awprot),
+        .s_axil_awvalid(s_axil_awvalid),
+        .s_axil_awready(s_axil_awready),
+
+        .s_axil_wdata  (s_axil_wdata),
+        .s_axil_wvalid (s_axil_wvalid),
+        .s_axil_wready (s_axil_wready),
+
+        .s_axil_bresp  (s_axil_bresp),
+        .s_axil_bvalid (s_axil_bvalid),
+        .s_axil_bready (s_axil_bready),
+
+        .o_addr_en     (addr_en),
+        .o_we          (we),
+        .o_addr_a      (a_addr),
+        .o_addr_b      (b_addr),
+        .o_addr_c      (c_addr)
+    );
 
     gen_addr #(
         .WIDTH(WIDTH),
@@ -63,11 +117,11 @@ module sa_w_gen_addr
         .clk(clk),
         .rst_n(rst_n),
 
-        .i_en(i_addr_gen_en),
-        .i_we(i_we),
-        .base_addr_a(base_addr_a),
-        .base_addr_b(base_addr_b),
-        .base_addr_c(base_addr_c),
+        .i_en       (addr_en),
+        .i_we       (we),
+        .base_addr_a(a_addr),
+        .base_addr_b(b_addr),
+        .base_addr_c(c_addr),
 
         .awaddr (m_axi_awaddr),
         .awlen  (m_axi_awlen),
@@ -91,7 +145,7 @@ module sa_w_gen_addr
     ) sa_credited_inst (
         .clk    (clk),
         .rst_n  (rst_n),
-        .i_we   (i_we),
+        .i_we   (we),
         .i_vld  (m_axi_rvalid),
         .o_rdy  (m_axi_rready),
         .i_a    (m_axi_rdata ),
@@ -109,7 +163,7 @@ module sa_w_gen_addr
         if (!rst_n)
             cnt <= 0;
         else begin
-            if (m_axi_wvalid)
+            if (m_axi_wvalid && m_axi_wready)
                 cnt <= cnt + 1'b1;
         end
     end
