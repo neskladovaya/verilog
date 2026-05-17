@@ -1,0 +1,1 @@
+savedcmd_/home/buusya/prog/baikal/verilog/problems/2026/12_drv_led/drv/led.mod := printf '%s\n'   led.o | awk '!x[$$0]++ { print("/home/buusya/prog/baikal/verilog/problems/2026/12_drv_led/drv/"$$0) }' > /home/buusya/prog/baikal/verilog/problems/2026/12_drv_led/drv/led.mod

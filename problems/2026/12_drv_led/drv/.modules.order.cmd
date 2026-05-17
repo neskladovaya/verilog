@@ -1,0 +1,1 @@
+savedcmd_/home/buusya/prog/baikal/verilog/problems/2026/12_drv_led/drv/modules.order := {   echo /home/buusya/prog/baikal/verilog/problems/2026/12_drv_led/drv/led.o; :; } > /home/buusya/prog/baikal/verilog/problems/2026/12_drv_led/drv/modules.order

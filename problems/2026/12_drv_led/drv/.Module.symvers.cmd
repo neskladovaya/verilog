@@ -1,0 +1,1 @@
+savedcmd_/home/buusya/prog/baikal/verilog/problems/2026/12_drv_led/drv/Module.symvers :=  scripts/mod/modpost -M -m       -o /home/buusya/prog/baikal/verilog/problems/2026/12_drv_led/drv/Module.symvers -n -T /home/buusya/prog/baikal/verilog/problems/2026/12_drv_led/drv/modules.order -i Module.symvers -e 
